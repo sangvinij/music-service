@@ -3,8 +3,6 @@ from fastapi import APIRouter, status, Response
 healthcheck_router = APIRouter()
 
 
-
-
 @healthcheck_router.get(
     "/healthcheck",
     status_code=status.HTTP_204_NO_CONTENT,
@@ -14,4 +12,6 @@ healthcheck_router = APIRouter()
     tags=["Healthcheck"],
 )
 async def healthcheck():
-    return Response(status_code=status.HTTP_200_OK)
+    return Response(
+        status_code=status.HTTP_200_OK
+    )
