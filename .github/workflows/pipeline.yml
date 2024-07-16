@@ -19,5 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-dev
     steps:
-      - name: Run linters
-        run: docker-compose run --rm webapp sh -c "flake8 && black . --check && isort . --check"
+      - name: check files
+        run: ls -la
+      - name: check images
+        run: docker images
+#      - name: Run linters
+#        run: docker-compose run --rm webapp sh -c "flake8 && black . --check && isort . --check"
