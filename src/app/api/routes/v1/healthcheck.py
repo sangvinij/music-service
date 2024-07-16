@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Response
+from fastapi import APIRouter, Response, status
 
 healthcheck_router = APIRouter()
 
