@@ -31,7 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-dev
     steps:
-      -
       - name: Log in to Docker Hub
         run: echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
