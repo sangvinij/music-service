@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "music-service"
+version = "0.1.0"
+description = ""
+authors = ["Artyom Vorozhbyanov <artyom.vorozhbyanov@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.2"
+fastapi = "0.111.1"
+pydantic-settings = "2.3.4"
+alembic = "^1.13.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "24.4.2"
+flake8 = "7.1.0"
+flake8-builtins = "2.1.0"
+flake8-bandit = "4.1.1"
+flake8-comprehensions = "3.14.0"
+flake8-fixme = "1.1.1"
+flake8-multiline-containers = "0.0.19"
+flake8-mutable = "1.2.0"
+flake8-print = "5.0.0"
+flake8-quotes = "3.3.2"
+flake8-simplify = "0.21.0"
+isort = "5.13.2"
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+include = '^.+\.pyi?$'
+extend-exclude = '''
+(
+    .*\.idea.*
+    | .*\.vscode.*
+    | .*\.git.*
+    | .*\.local.*
+)
+'''
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

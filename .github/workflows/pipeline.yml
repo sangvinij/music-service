@@ -1,0 +1,44 @@
+name: ci
+on: pull_request
+
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+jobs:
+  build-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+
+      - name: set envs
+        run: cp .env.sample .env
+
+      - name: Build image
+        run: docker-compose build webapp
+
+      - name: Log in to Docker Hub
+        run: echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Tag image
+        run: docker tag music-service-app:latest "$DOCKERHUB_USERNAME"/music-service-webapp:latest
+
+      - name: Push image
+        run: docker push  "$DOCKERHUB_USERNAME"/music-service-webapp:latest
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: build-dev
+    steps:
+      - name: Log in to Docker Hub
+        run: echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Pull Docker image
+        run: docker pull "$DOCKERHUB_USERNAME"/music-service-webapp:latest
+
+      - name: Run linting inside Docker container
+        run: |
+          docker run --rm \
+            "$DOCKERHUB_USERNAME"/music-service-webapp:latest \
+            sh -c "flake8 . && black . --check && isort . --check"
