@@ -1,0 +1,23 @@
+name: ci
+on: pull-request
+
+jobs:
+
+  build-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+
+      - name: set envs
+        run: cp .env.sample src/.env
+
+      - name: Build image
+        run: docker-compose build webapp --no-cache
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Run linters
+        run: docker-compose run --rm webapp sh -c "flake8 && black . --check && isort . --check"
