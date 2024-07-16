@@ -13,7 +13,7 @@ jobs:
         run: cp .env.sample .env
 
       - name: Build image
-        run: docker-compose build webapp --no-cache
+        run: docker-compose build webapp
 
   lint:
     runs-on: ubuntu-latest
