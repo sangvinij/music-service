@@ -27,22 +27,16 @@ jobs:
       - name: Push image
         run: docker push  "$DOCKERHUB_USERNAME"/music-service-webapp:latest
 
-#
-#  lint:
-#    runs-on: ubuntu-latest
-#    needs: build-dev
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4.1.7
-#
-#      - name: Download image
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: webapp-image
-#          path: webapp.tar
-#
-#      - name: Load image
-#        run: docker load -i webapp.tar
-#
-#      - name: Run linters
-#        run: docker-compose run --rm webapp sh -c "flake8 && black . --check && isort . --check"
+  lint:
+    runs-on: ubuntu-latest
+    needs: build-dev
+    steps:
+      - name: Pull Docker image
+        run: docker pull "$DOCKERHUB_USERNAME"/music-service-webapp:latest
+
+      - name: Run linting inside Docker container
+        run: |
+          docker run --rm \
+            -v $(pwd):/app \
+            "$DOCKERHUB_USERNAME"/music-service-webapp:latest \
+            sh -c "flake8 . && black . --check && isort . --check"
