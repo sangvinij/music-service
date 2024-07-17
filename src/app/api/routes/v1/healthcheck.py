@@ -9,7 +9,6 @@ healthcheck_router = APIRouter()
     responses={
         status.HTTP_500_INTERNAL_SERVER_ERROR: {},
     },
-    tags=["Healthcheck"],
 )
 async def healthcheck():
     return Response(status_code=status.HTTP_200_OK)
