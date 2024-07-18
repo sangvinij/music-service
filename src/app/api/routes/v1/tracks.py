@@ -25,5 +25,5 @@ async def get_tracks_list():
 
 
 @tracks_router.post("/", status_code=status.HTTP_200_OK)
-async def create_Track():
+async def create_track():
     pass
